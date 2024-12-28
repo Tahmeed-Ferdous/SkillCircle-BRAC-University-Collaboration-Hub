@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h4>Profile Suggestions</h4>
+    <div class="row">
+        {% if suggestions %}
+        {% for suggestion in suggestions %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ suggestion.username }}</h5>
+                    <p class="card-text">{{ suggestion.profile_info }}</p>
+                    <a href="{% url 'profile' suggestion.username %}" class="btn btn-primary btn-sm">View Profile</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No more profile suggestions. <a href="{% url 'usersearch' %}">Search Profiles</a></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-md-12">
+            <!-- Following Profiles -->
+            <section id="following-profiles">
+
+                <div class="row">
+                    {% if following_profiles %}
+                    {% for profile in following_profiles %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <img src="{{ profile.user.profile.image.url }}" class="card-img-top" alt="Profile Image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ profile.user.username }}</h5>
+                                {% if profile.user.username %}
+                                <a href="{% url 'profile' profile.user.username %}" class="btn btn-primary btn-sm">View Profile</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No profiles found.</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </section>
+
+            <!-- Profile Suggestions -->
+            <section id="profile-suggestions">
+                <h4>Profile Suggestions</h4>
+                <div class="row">
+                    {% if profile_suggestions %}
+                    {% for suggestion in profile_suggestions %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="profile-img mb-3">
+                                    {% if suggestion.picture %}
+                                      <img class="rounded-circle img-fluid border" src="{{ suggestion.picture.url }}" alt="Pic" style="width: 120px; height: 120px; object-fit: cover;">
+                                    {% else %}
+                                    <img class="rounded-circle img-fluid border" src="{% static 'img/person.jpg' %}" alt="Pic" style="width: 120px; height: 120px; object-fit: cover;">
+                                    {% endif %}
+                                  </div>
+                                <h5 class="card-title">{{ suggestion.first_name }} {{ suggestion.last_name }}</h5>
+                                <h5 class="card-title text-muted fs-6">@{{ suggestion.user }}</h5>
+                                <h5 class="card-title text-muted fs-6">{{ suggestion.profile_info }}</h5>
+                                {% if suggestion.user %}
+                                <a href="{% url 'profile' suggestion.user %}" class="btn btn-primary btn-sm">View Profile</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>No more profile suggestions available.</p>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

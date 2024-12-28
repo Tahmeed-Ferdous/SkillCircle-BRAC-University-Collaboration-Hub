@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h4 class="font-weight-bold">Filtered Posts for {{ category }}</h4>
+    
+    <!-- Display Posts -->
+    <div class="row">
+        {% if posts %}
+        {% for post in posts %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <img src="{{ post.picture.url }}" class="card-img-top" alt="Post Image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.caption }}</h5>
+                    <p class="card-text">{{ post.caption|truncatechars:100 }}</p>
+                    <a href="{% url 'postdetails' post.id %}" class="btn btn-primary btn-sm">View Post</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No posts available under this category.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

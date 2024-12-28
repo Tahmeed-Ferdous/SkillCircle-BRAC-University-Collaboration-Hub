@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row align-items-center">
+      <!-- Welcome Message in the Center -->
+      <div class="col text-center">
+        <h4 class="mb-3 mt-3">Welcome, 
+          {% if request.user.profile.first_name %}
+            {{ request.user.profile.first_name }}
+          {% else %}
+            Unknown
+          {% endif %}
+        </h4>
+      </div>
+      <div class="col-auto">
+        {% if user.profile.picture %}
+        <a href="{{ user.profile.get_absolute_url }}">
+          <img class="rounded-circle img-fluid border" 
+               src="{{ user.profile.picture.url }}" 
+               alt="Profile Picture" 
+               style="width: 60px; height: 60px; object-fit: cover;">
+        </a>
+        {% else %}
+        <img class="rounded-circle img-fluid border" 
+             src="{% static 'img/person.jpg' %}" 
+             alt="Pic" 
+             style="width: 60px; height: 60px; object-fit: cover;">
+        {% endif %}
+      </div>
+    </div>
+  
+<hr class="mb-4">
+
+<div class="container-fluid py-3">
+    <div class="row g-4">
+        {% for post_item in post_items %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <!-- Image Section -->
+                <div class="card-image">
+                    {% if post_item.picture %}
+                    <a href="{{ post_item.get_absolute_url }}">
+                        <img src="{{ post_item.picture.url }}" 
+                             class="card-img-top rounded-top" 
+                             style="height: 200px; object-fit: cover;" 
+                             alt="Post Image">
+                    </a>
+                    {% else %}
+                    <img src="{% static 'media/def.png' %}" 
+                         class="card-img-top rounded-top" 
+                         alt="Default Image">
+                    {% endif %}
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body">
+                    <!-- User Section -->
+                    <div class="d-flex align-items-center mb-3">
+                        <!-- User Picture -->
+                        <a href="{% url 'profile' post_item.user %}">
+                        {% if post_item.user.profile.picture %}
+                        <img src="{{ post_item.user.profile.picture.url }}" 
+                             alt="User Profile" 
+                             class="rounded-circle me-2" 
+                             style="width: 48px; height: 48px;">
+                        {% else %}
+                        <img src="{% static 'img/logo.png' %}" 
+                             alt="Default Profile" 
+                             class="rounded-circle me-2" 
+                             style="width: 48px; height: 48px;">
+                        {% endif %}
+                        </a>
+                        <!-- User Info -->
+                        <div class="flex-grow-1">
+                            <a href="{% url 'profile' post_item.user %}" class="text-decoration-none">
+                                <h6 class="mb-0 text-truncate fw-bold">
+                                    {% if post_item.user.profile.first_name %}
+                                    {{ post_item.user.profile.first_name }} {{ post_item.user.profile.last_name }}
+                                    {% else %}
+                                    BRAC University
+                                    {% endif %}
+                                </h6>
+                            </a>
+                            <p class="text-muted small mb-0 fs-6">@{{ post_item.user.username }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Post Caption -->
+                    <p class="card-text text-muted text-truncate mb-3 small fs-6" 
+                       style="max-height: 4.5em; overflow: hidden; line-height: 1.5em;">
+                        {{ post_item.caption }}
+                    </p>
+
+                    <!-- Tags -->
+                    <div class="fs-6">
+                        {% for tag in post_item.tags.all %}
+                        <a href="{{ tag.get_absolute_url }}" class="badge bg-primary text-decoration-none me-1">#{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Card Footer -->
+                <div class="card-footer bg-light d-flex justify-content-between align-items-center text-muted small fs-6">
+                    <span><i class="bi bi-calendar fs-6"></i> <time datetime="{{ post_item.posted }}">{{ post_item.posted }}</time></span>
+                    <a href="{% url 'postlike' post_item.id %}" class="text-decoration-none">
+                        <i class='bx bxs-badge-check'></i>{{ post_item.likes }} Badges
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block pagination %}
+<div class="d-flex justify-content-center mt-4">
+    {% if articles.has_previous %}
+    <a href="?page={{ articles.previous_page_number }}" class="btn btn-outline-secondary me-2">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
+    {% endif %}
+    {% if articles.has_next %}
+    <a href="?page={{ articles.next_page_number }}" class="btn btn-outline-primary">
+        Load More <i class="bi bi-arrow-right"></i>
+    </a>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
+
+ 

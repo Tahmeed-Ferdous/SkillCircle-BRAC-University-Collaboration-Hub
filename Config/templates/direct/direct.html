@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="columns is-variable is-8 fs-5">
+  <!-- Sidebar for Messages -->
+  <div class="column is-one-quarter">
+    <aside class="menu">
+      <h2 class="title is-4">Messages</h2>
+      <ul class="menu-list" style="overflow-y: auto; height: calc(100vh - 150px); padding: 0;">
+        {% for message in messages %}
+        <li>
+          <a 
+            class="media {% if active_direct == message.user.username %}is-active{% endif %}" 
+            href="{% url 'directs' message.user.username %}" 
+            style="padding: 10px; display: flex; align-items: center; gap: 10px; text-decoration: none;"
+          >
+            <figure class="image is-48x48">
+              {% if message.user.profile.picture %}
+                <img src="{{ message.user.profile.picture.url }}" alt="{{ message.user.username }}">
+              {% else %}
+                <img src="{% static 'default_profile_picture.png' %}" alt="Default Profile">
+              {% endif %}
+            </figure>
+            <div>
+              <p style="font-size: 14px; font-weight: 600; margin: 0; color: black;">
+                {{ message.user.profile.first_name }} {{ message.user.profile.last_name }}
+              </p>
+              <p style="font-size: 12px; color: gray; margin: 0;">
+                @{{ message.user.username }}
+              </p>
+              {% if message.unread %}
+                <span style="font-size: 12px; font-weight: bold; color: red;">{{ message.unread }} new</span>
+              {% endif %}
+            </div>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'usersearch' %}" class="button is-success is-fullwidth" style="text-decoration: none;">New Message</a>
+    </aside>
+  </div>
+
+  <!-- Chat Content -->
+  <div class="column is-three-quarters">
+    <div 
+      class="box" 
+      style="overflow-y: auto; height: calc(100vh - 200px); border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;"
+    >
+      {% if directs %}
+        {% for direct in directs %}
+        <div class="media" style="margin-bottom: 10px;">
+          <figure class="media-left">
+            <p class="image is-48x48">
+              {% if direct.sender.profile.picture %}
+                <img src="{{ direct.sender.profile.picture.url }}" alt="{{ direct.sender.username }}">
+              {% else %}
+                <img src="{% static 'default_profile_picture.png' %}" alt="Default Profile">
+              {% endif %}
+            </p>
+          </figure>
+          <div class="media-content">
+            <p class="fs-6">
+              <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> 
+              <small style="color: gray;">@{{ direct.sender.username }}</small>
+              <span style="float: right; font-size: 12px; color: gray;">{{ direct.date|date:'M d, H:i' }}</span>
+            </p>
+            <p class="fs-6">{{ direct.body }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <p style="text-align: center; color: gray;">No messages yet. Start a conversation!</p>
+      {% endif %}
+    </div>
+
+    <!-- Message Input -->
+    <form 
+      method="POST" 
+      action="{% url 'send_direct' %}" 
+      style="margin-top: 15px; align-items: center; gap: 10px;"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="to_user" value="{{ active_direct }}">
+      <textarea 
+        class="textarea" 
+        name="body" 
+        placeholder="Type your message..." 
+        style="flex-grow: 1; border-radius: 8px; min-height: 60px;"
+      ></textarea>
+      <button type="submit" class="button is-info" style="border-radius: 8px;">Send</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

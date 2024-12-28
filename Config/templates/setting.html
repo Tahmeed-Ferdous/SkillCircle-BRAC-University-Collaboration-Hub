@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Settings Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Settings</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group fs-5">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'setting:change_password' %}" class="text-decoration-none">Change Password</a>
+                    <i class="bi bi-key text-secondary"></i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'setting:privacy_settings' %}" class="text-decoration-none">Privacy Settings</a>
+                    <i class="bi bi-shield-lock text-secondary"></i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'setting:notification_settings' %}" class="text-decoration-none">Notification Settings</a>
+                    <i class="bi bi-bell text-secondary"></i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'setting:blocked_users' %}" class="text-decoration-none">Blocked Users</a>
+                    <i class="bi bi-person-x text-secondary"></i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'setting:linked_accounts' %}" class="text-decoration-none">Linked Accounts</a>
+                    <i class="bi bi-link-45deg text-secondary"></i>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'setting:delete_account' %}" class="text-decoration-none text-danger">Delete Account</a>
+                    <i class="bi bi-trash text-danger"></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Contact Information Section -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Contact Information</h5>
+        </div>
+        <div class="card-body fs-5">
+            <form method="post" action="{% url 'setting:update_contact_info' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email" 
+                        value="{{ user.email }}">
+                </div>
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label">Phone Number</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="phone_number" 
+                        name="phone_number" 
+                        value="{{ user.profile.phone_number }}">
+                </div>
+                <button type="submit" class="button is-success w-100">
+                    <i class="bi bi-save me-2"></i>Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
