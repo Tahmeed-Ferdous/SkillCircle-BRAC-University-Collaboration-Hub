@@ -137,7 +137,7 @@ def like(request, post_id):
 
 	if not liked:
 		like = Likes.objects.create(user=user, post=post)
-		#like.save()
+		like.save()
 		current_likes = current_likes + 1
 
 	else:

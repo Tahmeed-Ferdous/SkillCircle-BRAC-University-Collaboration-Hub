@@ -43,6 +43,7 @@ def dashboard(request):
         'cards': cards,
         'error': error_message
     })
+
 # routine planner views function to update the time table
 def add_course(request):
     error_message=None

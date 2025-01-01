@@ -46,15 +46,15 @@
                         <div class="ms-auto d-flex gap-2">
                             {% if favorited %}
                                 <a href="{% url 'postfavorite' post.id %}" class="btn btn-outline-secondary btn-sm">
-                                    <i class="bi bi-bookmark-fill"></i> Remove
+                                    <i class='bx bxs-folder-minus' ></i>Remove
                                 </a>
                             {% else %}
                                 <a href="{% url 'postfavorite' post.id %}" class="btn btn-outline-secondary btn-sm">
-                                    <i class="bi bi-bookmark"></i> Save
+                                    <i class='bx bxs-save' ></i>Save
                                 </a>
                             {% endif %}
                             <a href="{% url 'postlike' post.id %}" class="btn btn-outline-primary btn-sm">
-                                <i class="bi bi-check-circle"></i> {{ post.likes }} Badges
+                                <i class='bx bx-medal'></i>{{ post.likes }}
                             </a>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                             <div class="d-flex align-items-start">
                                 <div class="me-3">
                                     {% if comment.user.profile.picture %}
-                                        <img src="{{ comment.user.profile.picture.url }}" alt="User Image" class="rounded-circle" style="width: 80px; height: 50px;">
+                                        <img src="{{ comment.user.profile.picture.url }}" alt="User Image" class="rounded-circle" style="width: 40px; height: 40px;">
                                     {% else %}
                                         <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder Image" class="rounded-circle" style="width: 40px; height: 40px;">
                                     {% endif %}
@@ -95,7 +95,7 @@
 
                                 <!-- Comment Content -->
                                 <div>
-                                    <p class="mb-1 small fs-5">
+                                    <p class="mb-1 small fs-6">
                                         <strong>{% if comment.user.profile.first_name %}{{ comment.user.profile.first_name }} {{ comment.user.profile.last_name }}{% else %}Unknown{% endif %}</strong>
                                     </p>
                                     <p class="mb-1 text-muted small text-wrap fs-6">{{ comment.body }}</p>
