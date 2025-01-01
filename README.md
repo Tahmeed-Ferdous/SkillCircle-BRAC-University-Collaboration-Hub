@@ -8,7 +8,7 @@ SkillCircle is a social media management application developed for BRAC Universi
 
 ## How To Setup
 ```
-git clone https://github.com/sajib1066/event-calendar.git
+git clone https://github.com/Tahmeed-Ferdous/SkillCircle-BRAC-University-Collaboration-Hub.git
 ```
 ```
 cd SkillCircle-BRAC-University-Collaboration-Hub
