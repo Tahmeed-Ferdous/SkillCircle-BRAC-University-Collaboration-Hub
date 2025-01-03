@@ -18,8 +18,9 @@
                   <img class="rounded-circle img-fluid border" src="{{ profile.picture.url }}" alt="Profile Picture" style="width: 120px; height: 120px; object-fit: cover;">
                 </a>
                 {% else %}
-                <img class="rounded-circle img-fluid border" src="{% static 'img/person.jpg' %}" alt="Default Profile Picture" style="width: 120px; height: 120px; object-fit: cover; margin-top: 100px;">
+                  <img class="rounded-circle img-fluid border" src="{% static 'img/person.jpg' %}" alt="Default Profile Picture" style="width: 120px; height: 120px; object-fit: cover; margin-top: 100px;">
                 {% endif %}
+
               </div>
             </div>
             <!-- Stats and Bio -->
@@ -72,7 +73,7 @@
               </div>
               <!-- Edit Profile Button -->
               {% if user.is_authenticated and user == profile.user %}
-              <div class="text-start mt-3" style="margin-left: -70px;">
+              <div class="text-start mt-3" style="margin-left: -80px;">
                 <a href="{% url 'edit-profile' %}" class="btn btn-sm btn-primary">Edit Profile</a>
               </div>
               {% endif %}
